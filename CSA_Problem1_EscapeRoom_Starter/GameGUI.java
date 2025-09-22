@@ -218,7 +218,13 @@ public class GameGUI extends JComponent
     // Check coin collision for all coins
     for (int i = 0; i < totalCoins; i++) {
       if (coins[i].contains(x + 10, y + 10)) { // center of player
+      // Every 5th coin is worth 2 points
+      if ((score + 1) % 5 == 0) { 
+        score += 2;
+        System.out.println("Bonus! 5th coin worth 2 points.");
+      } else {
         score++;
+      }
         System.out.println("Score: " + score);
         // Move coin to new random location
         Random rand = new Random();
