@@ -234,9 +234,16 @@ public class GameGUI extends JComponent
 
     // Check trap collision
     if (trap.contains(x + 20, y + 20)) {
-     if (!isImmune){
-      score = Math.max(0, score - 1);
-      System.out.println("Hit trap! Score: " + score);
+      if (!isImmune) {
+      Random rand = new Random();
+      // 10% chance to reset score to zero
+      if (rand.nextInt(5) == 0 ) {
+        score = 0;
+        System.out.println("Unlucky! You lost all your points!");
+      } else {
+        score = Math.max(0, score - 1);
+        System.out.println("Hit trap! Score: " + score);
+      }
       canMove = false;
      }
     else if (isImmune) {
