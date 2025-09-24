@@ -60,8 +60,7 @@ public class GameGUI extends JComponent
   private boolean isImmune;
 
   // scores, sometimes awarded as (negative) penalties
-  private int prizeVal = 10;
-  private int trapVal = 5;
+
   private int endVal = 10;
   private int offGridVal = 5; // penalty only
   private int hitWallVal = 5;  // penalty only
@@ -177,6 +176,11 @@ public class GameGUI extends JComponent
     if ( (newX < 0 || newX > WIDTH-SPACE_SIZE) || (newY < 0 || newY > HEIGHT-SPACE_SIZE) )
     {
       System.out.println ("OFF THE GRID!");
+      score -= 1;
+      if (score < 0) {
+        score = 0;
+      }
+      System.out.println("Score: " + score);
       return -offGridVal;
     }
 
@@ -191,33 +195,53 @@ public class GameGUI extends JComponent
       if ((incrx > 0) && (x <= startX) && (startX <= newX) && (y >= startY) && (y <= endY))
       {
         System.out.println("A WALL IS IN THE WAY");
+        score -= 1;
+      if (score < 0) {
+        score = 0;
+      }
+        System.out.println("Score: " + score);
         return -hitWallVal;
       }
       else if ((incrx < 0) && (x >= startX) && (startX >= newX) && (y >= startY) && (y <= endY))
       {
         System.out.println("A WALL IS IN THE WAY");
+        score -= 1;
+      if (score < 0) {
+        score = 0;
+      }
+        System.out.println("Score: " + score);
         return -hitWallVal;
       }
       else if ((incry > 0) && (y <= startY && startY <= newY && x >= startX && x <= endX))
       {
         System.out.println("A WALL IS IN THE WAY");
+        score -= 1;
+      if (score < 0) {
+        score = 0;
+      }
+        System.out.println("Score: " + score);
         return -hitWallVal;
       }
       else if ((incry < 0) && (y >= startY) && (startY >= newY) && (x >= startX) && (x <= endX))
       {
         System.out.println("A WALL IS IN THE WAY");
+        score -= 1;
+      if (score < 0) {
+        score = 0;
+      }
+        System.out.println("Score: " + score);
         return -hitWallVal;
       }     
     }
 
-    // all is well, move player
+    // Move player
     x += incrx;
     y += incry;
     playerLoc.setLocation(x, y);
 
     // Check coin collision for all coins
     for (int i = 0; i < totalCoins; i++) {
-      if (coins[i].contains(x + 10, y + 10)) { // center of player
+      if (coins[i].contains(x + 10, y + 10)) {
       // Every 5th coin is worth 2 points
       if ((score + 1) % 5 == 0) { 
         score += 2;
@@ -240,6 +264,7 @@ public class GameGUI extends JComponent
       if (rand.nextInt(5) == 0 ) {
         score = 0;
         System.out.println("Unlucky! You lost all your points!");
+        System.out.println("Score: " + score);
       } else {
         score = Math.max(0, score - 1);
         System.out.println("Hit trap! Score: " + score);
@@ -341,18 +366,6 @@ public class GameGUI extends JComponent
     playerLoc.setLocation(x,y);
   }
 
-  private void createCoins()
-  {
-    int s = SPACE_SIZE; 
-    Random rand = new Random();
-    for (int numCoins = 0; numCoins < totalCoins; numCoins++)
-    {
-      int h = rand.nextInt(GRID_H);
-      int w = rand.nextInt(GRID_W);
-      Rectangle r = new Rectangle((w*s + 15),(h*s + 15), 15, 15);
-      coins[numCoins] = r;
-    }
-  }
 
   private void createWalls()
   {
