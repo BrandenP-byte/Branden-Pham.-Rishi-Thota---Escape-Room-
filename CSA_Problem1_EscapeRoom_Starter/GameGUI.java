@@ -239,6 +239,10 @@ public class GameGUI extends JComponent
       System.out.println("Hit trap! Score: " + score);
       canMove = false;
      }
+    else if (isImmune) {
+      isImmune = false;
+      System.out.println("You are no longer immune!");
+     }
 
       // Move trap to new random location
       Random rand = new Random();
